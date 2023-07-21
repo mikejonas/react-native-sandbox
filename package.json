@@ -1,5 +1,5 @@
 {
-  "name": "ReactNativeSandbox",
+  "name": "react-native-sandbox",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,12 @@
   },
   "dependencies": {
     "react": "18.2.0",
-    "react-native": "0.72.3"
+    "react-native": "0.72.3",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/stack": "^6.3.17",
+    "react-native-gesture-handler": "^2.12.0",
+    "react-native-safe-area-context": "^4.7.1",
+    "react-native-screens": "^3.22.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

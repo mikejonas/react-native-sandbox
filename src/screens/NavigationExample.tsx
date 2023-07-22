@@ -32,7 +32,7 @@ const NavigationExampleScreen: React.FC<Props> = ({navigation, route}) => {
           route id {route.params.routeId}.
         </Text>
       </View>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+      <Button title="Go Home" onPress={() => navigation.navigate('Home')} />
     </ScreenContainer>
   );
 };

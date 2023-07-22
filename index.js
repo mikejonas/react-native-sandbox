@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler'; // Make sure this is the absolute first line
+
 /**
  * @format
  */

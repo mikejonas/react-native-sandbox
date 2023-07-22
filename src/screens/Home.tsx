@@ -14,15 +14,21 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     <ScreenContainer verticalCenter>
       <View style={styles.sectionContainer}>
         <Button
-          title="Basic navigation example"
+          title="Original Homescreen"
+          onPress={() => navigation.navigate('LegacyHomeScreen')}
+        />
+      </View>
+      <View style={styles.sectionContainer}>
+        <Button
+          title="Basic Navigation Example"
           onPress={() =>
             navigation.navigate('NavigationExample', {routeId: '123'})
           }
         />
       </View>
       <Button
-        title="Origianal Homescreen"
-        onPress={() => navigation.navigate('OriginalHomescreen')}
+        title="Drawer Navigation Example"
+        onPress={() => navigation.navigate('DrawerNavigationExample')}
       />
     </ScreenContainer>
   );

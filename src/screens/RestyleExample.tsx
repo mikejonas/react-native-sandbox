@@ -7,12 +7,12 @@ import {
   createVariant,
   VariantProps,
 } from '@shopify/restyle';
-import {SafeAreaView, Switch, View} from 'react-native';
-import {useHeaderHeight} from '@react-navigation/elements';
 import {darkTheme, lightTheme, Theme} from '../theme/restyle';
 
-const Box = createBox<Theme>();
-const Text = createText<Theme>();
+import {Switch, View} from 'react-native';
+import {useHeaderHeight} from '@react-navigation/elements';
+import Box from '../components/Box';
+import Text from '../components/Text';
 
 const Card = createRestyleComponent<
   VariantProps<Theme, 'cardVariants'> & React.ComponentProps<typeof Box>,

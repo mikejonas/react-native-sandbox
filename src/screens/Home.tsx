@@ -26,9 +26,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           }
         />
       </View>
+      <View style={styles.sectionContainer}>
+        <Button
+          title="Drawer Navigation Example"
+          onPress={() => navigation.navigate('DrawerNavigationExample')}
+        />
+      </View>
+
       <Button
-        title="Drawer Navigation Example"
-        onPress={() => navigation.navigate('DrawerNavigationExample')}
+        title="Restyle Example"
+        onPress={() => navigation.navigate('RestyleExample')}
       />
     </ScreenContainer>
   );

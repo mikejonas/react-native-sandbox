@@ -4,6 +4,7 @@ import Button from '../components/Button';
 import ScreenContainer from '../components/ScreenContainer';
 import {StyleSheet, View} from 'react-native';
 import {StackNavigatorParams} from '../navigation';
+import Box from '../components/Box';
 
 type HomeScreenProps = {
   navigation: StackNavigationProp<StackNavigatorParams, 'Home'>;
@@ -12,26 +13,26 @@ type HomeScreenProps = {
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <ScreenContainer verticalCenter>
-      <View style={styles.sectionContainer}>
+      <Box marginBottom="s">
         <Button
           title="Original Homescreen"
           onPress={() => navigation.navigate('LegacyHomeScreen')}
         />
-      </View>
-      <View style={styles.sectionContainer}>
+      </Box>
+      <Box marginBottom="s">
         <Button
           title="Basic Navigation Example"
           onPress={() =>
             navigation.navigate('NavigationExample', {routeId: '123'})
           }
         />
-      </View>
-      <View style={styles.sectionContainer}>
+      </Box>
+      <Box marginBottom="s">
         <Button
           title="Drawer Navigation Example"
           onPress={() => navigation.navigate('DrawerNavigationExample')}
         />
-      </View>
+      </Box>
 
       <Button
         title="Restyle Example"

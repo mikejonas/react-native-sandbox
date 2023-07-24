@@ -32,7 +32,7 @@ const baseTheme = createTheme({
   },
   textVariants: {
     defaults: {
-      fontSize: 16,
+      fontSize: 17,
       color: 'text',
     },
     header: {
@@ -41,7 +41,8 @@ const baseTheme = createTheme({
       color: 'title',
     },
     body: {
-      fontSize: 16,
+      fontSize: 17,
+      lineHeight: 24,
       color: 'text',
     },
   },

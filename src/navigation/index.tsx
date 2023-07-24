@@ -7,6 +7,9 @@ import LegacyHomeScreen from '../screens/LegacyHome';
 import NavigationExample from '../screens/NavigationExample';
 import DrawerNavigationExample from '../screens/DrawerNavigationExample';
 import RestyleExample from '../screens/RestyleExample';
+import ChatExample from '../screens/ChatExample';
+import {useTheme} from '@shopify/restyle';
+import {Theme} from '../theme/restyle';
 
 export type StackNavigatorParams = {
   DrawerNavigationExample: undefined;
@@ -14,11 +17,14 @@ export type StackNavigatorParams = {
   LegacyHomeScreen: undefined;
   NavigationExample: {routeId: string};
   RestyleExample: undefined;
+  ChatExample: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>(); // provide the type to your createStackNavigator
 
 const Navigation = () => {
+  const theme = useTheme<Theme>();
+
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -49,9 +55,25 @@ const Navigation = () => {
         options={{
           headerTransparent: true,
           headerTitleStyle: {
-            color: 'white', // or whatever color you want
+            color: 'white',
           },
           headerTintColor: 'white', // changes the color of the back button
+        }}
+      />
+      <Stack.Screen
+        name="ChatExample"
+        component={ChatExample}
+        options={{
+          headerTitleStyle: {
+            color: 'white',
+          },
+          headerTintColor: theme.colors.text, // changes the color of the back button
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+            borderBottomWidth: 0,
+            shadowOpacity: 0, // this removes the bottom border
+            elevation: 0, // this removes shadow on Android
+          },
         }}
       />
     </Stack.Navigator>

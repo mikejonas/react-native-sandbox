@@ -1,6 +1,6 @@
 import React from 'react';
 import {Pressable, Text, StyleSheet, StyleProp, ViewStyle} from 'react-native';
-import lightenColor from '../utils/lightenColor';
+import adjustColorBrightness from '../utils/adjustColorBrightness';
 
 interface ButtonProps {
   title: string;
@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({title, onPress, color = '#000000'}) => {
-  const pressedColor = lightenColor(color, 0.25);
+  const pressedColor = adjustColorBrightness(color, 0.25);
   return (
     <Pressable
       style={({pressed}) =>

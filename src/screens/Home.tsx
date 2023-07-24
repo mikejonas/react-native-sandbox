@@ -13,13 +13,13 @@ type HomeScreenProps = {
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <ScreenContainer verticalCenter>
-      <Box marginBottom="s">
+      <Box marginBottom="m">
         <Button
           title="Original Homescreen"
           onPress={() => navigation.navigate('LegacyHomeScreen')}
         />
       </Box>
-      <Box marginBottom="s">
+      <Box marginBottom="m">
         <Button
           title="Basic Navigation Example"
           onPress={() =>
@@ -27,17 +27,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           }
         />
       </Box>
-      <Box marginBottom="s">
+      <Box marginBottom="m">
         <Button
           title="Drawer Navigation Example"
           onPress={() => navigation.navigate('DrawerNavigationExample')}
         />
       </Box>
-
-      <Button
-        title="Restyle Example"
-        onPress={() => navigation.navigate('RestyleExample')}
-      />
+      <Box marginBottom="m">
+        <Button
+          title="Restyle Example"
+          onPress={() => navigation.navigate('RestyleExample')}
+        />
+      </Box>
+      <Box marginBottom="m">
+        <Button
+          title="Chat example"
+          onPress={() => navigation.navigate('ChatExample')}
+        />
+      </Box>
     </ScreenContainer>
   );
 };

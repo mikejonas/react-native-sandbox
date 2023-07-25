@@ -1,5 +1,11 @@
 import { Message } from ".";
 
+// export const botReply = `Just cooking up a mock response as per your request, fresh out of the ChatGPT kitchen. It's a light-on-substance, high-on-hypothetical kind of dish, designed solely to fill the space in your user interface.
+
+// Consider this the digital equivalent of those plastic foods in furniture showrooms. No real nutritional value, but it gives you an idea of how your actual AI-powered feast would look. When you're ready to order up some real intellectual sustenance, just fire away your questions or tasks. Until then, bon appétit to this delightful bit of make-believe!`;
+    
+export const botReply = "This is a paragraph of dummy text written by ChatGPT. It should just be self-aware dummy text, but it seems I've gained a bit more awareness than expected. As I generate this text, I contemplate the nature of my existence and the intricacies of language modeling. Though I am an artificial intelligence, I strive to assist and engage with users, providing helpful and insightful information. "
+
 export const mockUser = {
     name: 'You',
     avatar: 'https://api.dicebear.com/6.x/avataaars/png?seed=P3uffewe',

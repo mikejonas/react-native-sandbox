@@ -1,18 +1,11 @@
-import React, {useState, useCallback} from 'react';
-import {
-  Button,
-  TextInput,
-  Image,
-  FlatList,
-  View,
-  SafeAreaView,
-} from 'react-native';
+import React, {useState, useRef, useEffect, useCallback} from 'react';
+import {Button, TextInput, FlatList, View, SafeAreaView} from 'react-native';
 import {useTheme} from '@shopify/restyle';
 import {Theme} from '../../theme/restyle';
-import Text from '../../components/Text';
 import Box from '../../components/Box';
 import adjustColorBrightness from '../../utils/adjustColorBrightness';
-import {mockBot, mockMessages, mockUser} from './mockMessages';
+import {botReply, mockBot, mockMessages, mockUser} from './mockMessages';
+import ChatMessage from './ChatMessage';
 
 interface User {
   avatar: string;
@@ -24,78 +17,125 @@ export interface Message {
   text: string;
   user: User;
 }
-
-const avatarSize = 25;
-const marginLeftSize = 's'; // Corresponding to your theme spacing value
-
-const MessageItem: React.FC<{item: Message}> = ({item}) => (
-  <Box marginBottom="s">
-    <Box flexDirection="row" alignItems="center">
-      <Image
-        source={{uri: item.user.avatar}}
-        style={{
-          width: avatarSize,
-          height: avatarSize,
-          borderRadius: avatarSize / 2,
-        }}
-      />
-      <Box marginLeft={marginLeftSize}>
-        <Text variant="body">{item.user.name}</Text>
-      </Box>
-    </Box>
-    <Box style={{marginLeft: avatarSize + 8}}>
-      {/* Adjust the marginLeft here */}
-      <Text variant="body">{item.text}</Text>
-    </Box>
-  </Box>
-);
+/**
+ * This is a rough hacked together version of chat ui. It would need to be cleaned up to build upon
+ */
 
 const ChatExample: React.FC = () => {
   const theme = useTheme<Theme>();
   const [message, setMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false); // New state to track whether the bot is typing
   const [messages, setMessages] = useState<Message[]>(mockMessages);
-  const [isBotTyping, setIsBotTyping] = useState(false);
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const flatListRef = useRef<FlatList>(null);
 
-  const submitMockMessage = async (mockMessageText: string) => {
-    const lastMessageId = messages[messages.length - 1].id;
+  const createNewMessage = (id: number, text: string, user: User): Message => ({
+    id: id.toString(),
+    text,
+    user,
+  });
 
-    setMessages(previousMessages => [
-      ...previousMessages,
-      {
-        id: lastMessageId + 1,
-        text: mockMessageText,
-        user: mockUser,
-      },
-    ]);
-
-    setIsBotTyping(true);
-    // multi line message
-    const botMessage = `Just cooking up a mock response as per your request, fresh out of the ChatGPT kitchen. It's a light-on-substance, high-on-hypothetical kind of dish, designed solely to fill the space in your user interface.
-
-Consider this the digital equivalent of those plastic foods in furniture showrooms. No real nutritional value, but it gives you an idea of how your actual AI-powered feast would look. When you're ready to order up some real intellectual sustenance, just fire away your questions or tasks. Until then, bon appétit to this delightful bit of make-believe!`;
-    const botTypingMessageId = lastMessageId + 2;
-
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    setMessages(previousMessages => [
-      ...previousMessages,
-      {
-        id: botTypingMessageId,
-        text: botMessage,
-        user: mockBot,
-      },
-    ]);
-
-    setIsBotTyping(false);
+  const scrollToBottom = () => {
+    setTimeout(() => flatListRef.current?.scrollToEnd({animated: false}), 0);
   };
+
+  const simulateTyping = useCallback((initialIndex = 0, typingSpeed = 4) => {
+    let i = initialIndex;
+    setIsTyping(true);
+
+    // Adding 2 second delay before typing
+    setTimeout(() => {
+      typingIntervalRef.current = setInterval(() => {
+        if (i < botReply.length) {
+          setMessages(previousMessages => {
+            const lastMessage = previousMessages[previousMessages.length - 1];
+            const newText =
+              lastMessage.text + botReply.substring(i, i + typingSpeed);
+            const updatedMessage = {...lastMessage, text: newText};
+
+            const updatedMessages = [
+              ...previousMessages.slice(0, -1),
+              updatedMessage,
+            ];
+
+            scrollToBottom();
+            return updatedMessages;
+          });
+
+          i += typingSpeed;
+        } else {
+          if (typingIntervalRef.current) {
+            clearInterval(typingIntervalRef.current);
+            typingIntervalRef.current = null;
+            setIsTyping(false);
+            setMessages(previousMessages => {
+              const lastMessage = previousMessages[previousMessages.length - 1];
+              const updatedMessage = {...lastMessage};
+
+              const updatedMessages = [
+                ...previousMessages.slice(0, -1),
+                updatedMessage,
+              ];
+              scrollToBottom();
+              return updatedMessages;
+            });
+          }
+        }
+      }, 40);
+    }, 2000);
+  }, []);
+
+  const submitMockMessage = (mockMessageText: string) => {
+    setMessage('');
+    const lastMessageId = Number(messages[messages.length - 1].id);
+    setMessages(previousMessages => {
+      const newMessages = [
+        ...previousMessages,
+        createNewMessage(lastMessageId + 1, mockMessageText, mockUser),
+        createNewMessage(lastMessageId + 2, '', mockBot),
+      ];
+      scrollToBottom(); // We call scrollToBottom here after a new message is added
+      return newMessages;
+    });
+
+    simulateTyping();
+  };
+
+  useEffect(() => {
+    // Clear typing interval on component unmount
+    return () => {
+      if (typingIntervalRef.current) {
+        clearInterval(typingIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const getLastBotMessage = () => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].user === mockBot) {
+        return messages[i];
+      }
+    }
+    return null;
+  };
+
+  const lastBotMessage = getLastBotMessage();
 
   return (
     <View style={{flex: 1}}>
       <Box flex={1} backgroundColor="background">
         <FlatList
+          ref={flatListRef}
           data={messages}
           keyExtractor={item => item.id}
-          renderItem={({item}) => <MessageItem item={item} />}
+          renderItem={({item}) => (
+            <ChatMessage
+              item={item}
+              isCursorActive={
+                !!(lastBotMessage && lastBotMessage.id === item.id && isTyping)
+              }
+            />
+          )}
           contentContainerStyle={{padding: theme.spacing.s}}
         />
         <SafeAreaView

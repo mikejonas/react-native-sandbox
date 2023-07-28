@@ -9,6 +9,7 @@ const palette = {
   vibrantBlue: '#7289DA',
   black: '#000000',
   lightGrey: '#d7dadf',
+  red: '#FF0000',
 };
 
 // default theme structure. Modify colors in the exported themes below
@@ -19,6 +20,7 @@ const baseTheme = createTheme({
     cardSecondaryBackground: '',
     title: '',
     text: '',
+    error: '',
   },
   spacing: {
     s: 8,
@@ -45,6 +47,10 @@ const baseTheme = createTheme({
       lineHeight: 24,
       color: 'text',
     },
+    error: {
+      fontSize: 12,
+      color: 'error',
+    },
   },
   cardVariants: {
     defaults: {
@@ -68,6 +74,7 @@ export const darkTheme = createTheme({
     cardSecondaryBackground: palette.softBlue,
     title: palette.white,
     text: palette.white,
+    error: palette.red,
   },
 });
 
@@ -79,6 +86,7 @@ export const lightTheme = createTheme({
     cardSecondaryBackground: palette.softBlueLight,
     title: palette.black,
     text: palette.black,
+    error: palette.red,
   },
 });
 

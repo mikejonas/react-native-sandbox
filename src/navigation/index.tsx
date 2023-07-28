@@ -8,6 +8,7 @@ import NavigationExample from '../screens/NavigationExample';
 import DrawerNavigationExample from '../screens/DrawerNavigationExample';
 import RestyleExample from '../screens/RestyleExample';
 import ChatExample from '../screens/ChatExample';
+import AuthExample from '../screens/AuthExample';
 import {useTheme} from '@shopify/restyle';
 import {Theme} from '../theme/restyle';
 
@@ -18,6 +19,7 @@ export type StackNavigatorParams = {
   NavigationExample: {routeId: string};
   RestyleExample: undefined;
   ChatExample: undefined;
+  AuthExample: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>(); // provide the type to your createStackNavigator
@@ -76,6 +78,7 @@ const Navigation = () => {
           },
         }}
       />
+      <Stack.Screen name="AuthExample" component={AuthExample} />
     </Stack.Navigator>
   );
 };

@@ -45,6 +45,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           onPress={() => navigation.navigate('ChatExample')}
         />
       </Box>
+      <Box marginBottom="m">
+        <Button
+          title="Auth example"
+          onPress={() => navigation.navigate('AuthExample')}
+        />
+      </Box>
     </ScreenContainer>
   );
 };
